@@ -1,25 +1,46 @@
 import math
-# TO-DO: Implement a recursive implementation of binary search
+# TO-DO: complete the helper function below to merge 2 sorted arrays
 
 
-def binary_search(arr, target, start, end):
+def merge(arrA, arrB):
+    elements = len(arrA) + len(arrB)
+    merged_arr = []
+
     # Your code here
 
-    if len(arr) == 0:
-        return -1
+    while elements > 0:
+        if len(arrA) > 0 and len(arrB) > 0:
+            if arrA[0] < arrB[0]:
+                merged_arr.append(arrA.pop(0))
+            else:
+                merged_arr.append(arrB.pop(0))
+        elif len(arrA) == 0:
+            while len(arrB) > 0:
+                merged_arr.append(arrB.pop(0))
+        elif len(arrB) == 0:
+            while len(arrA) > 0:
+                merged_arr.append(arrA.pop(0))
+        elements -= 1
 
-    middle = math.ceil((start + end) / 2)
+    return merged_arr
 
-    if arr[middle] == target:
-        return middle
+# TO-DO: implement the Merge Sort function below recursively
 
-    elif arr[middle] < target:
-        start = middle + 1
 
-    elif arr[middle] > target:
-        end = middle - 1
+def merge_sort(arr):
+    # Your code here
+    middle = math.floor(len(arr)/2)
 
-    return binary_search(arr, target, start, end)
+    left_arr = arr[:middle]
+    right_arr = arr[middle:]
+
+    if len(left_arr) > 1:
+        left_arr = merge_sort(left_arr)
+    if len(right_arr) > 1:
+        right_arr = merge_sort(right_arr)
+
+    arr = merge(left_arr, right_arr)
+    return arr
 
 # STRETCH: implement the recursive logic for merge sort in a way that doesn't
 # utilize any extra memory
